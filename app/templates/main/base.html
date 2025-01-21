@@ -11,7 +11,10 @@
     <header class="p-3 text-bg-dark header">{% include 'main/_header.html' %}</header>
 
     <div class="page">        
-        <main class="content">{% block content %}{% endblock %}</main>
+        <main class="content">
+            <h1>{{ self.title() }}</h1>
+            {% block content %}{% endblock %}
+        </main>
         
         <footer class="py-3 my-4">{% include 'main/_footer.html' %}</footer>
     </div>
