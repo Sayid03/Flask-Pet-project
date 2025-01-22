@@ -1,0 +1,29 @@
+{% extends 'main/base.html' %}
+
+{% block title %} All Posts {% endblock %}
+
+{% block style %}<link rel="stylesheet" href="{{ url_for('static', filename='css/blocks/table.css') }}">{% endblock %}
+
+{% block content %}
+    <div class="table-responsive custom-table-responsive">
+        <table class="table custom-table">
+            <thead>
+                <tr>
+                    <th scope="col">Lecturer</th>
+                    <th scope="col">Subject</th>
+                    <th scope="col">Student</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for post in posts %}
+                <tr scope="row">
+                    <td>{{ post.teacher }}</td>
+                    <td>{{ post.subject }}</td>
+                    <td>{{ post.student }}</td>
+                    <th scope="row"></th>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}
