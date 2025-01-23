@@ -7,6 +7,15 @@
         {{ form.csrf_token }}
         {{ form.name(class="form-control", placeholder="Name") }}
         {{ form.login(class="form-control", placeholder="Login") }}
+        
+        {% if form.login.errors %}
+            <div class="invalide-feedback" style="color: red;">
+                {% for error in form.login.errors %}
+                    <span>{{ error }}</span>
+                {% endfor %}
+            </div>
+        {% endif %}
+
         {{ form.avatar(class="form-control") }}
         {{ form.password(class="form-control", placeholder="Password") }}
         {{ form.confirm_password(class="form-control", placeholder="Confir Password") }}
