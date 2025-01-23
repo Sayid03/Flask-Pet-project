@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, redirect
+from flask import Blueprint, render_template, redirect, flash
 
 from ..functions import save_picture
 from ..forms import RegistrationForm
@@ -19,7 +19,7 @@ def register():
                     password= hashed_password)
         db.session.add(user)
         db.session.commit()
-        print(f"User - {form.name.data} has signed up!")
+        flash(f"Congratulations, {form.login.data}! You have successfully signed up!", "success")
         return redirect('/')
     else:
         print('Registration Error')
