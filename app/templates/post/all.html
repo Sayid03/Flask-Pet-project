@@ -18,9 +18,18 @@
             <tbody>
                 {% for post in posts %}
                 <tr scope="row">
-                    <td>{{ post.teacher }}</td>
+                    <td>
+                        <img width="96px" height="96px" src="{{ url_for('static', filename='upload/'+post.author.avatar) }}" alt="Teacher">
+                        {{ post.author.name }}
+                    </td>
                     <td>{{ post.subject }}</td>
-                    <td>{{ post.student }}</td>
+
+                    <td>
+                        {% with student = user.query.get(post.student) %}
+                            <img width="96px" height="96px" src="{{ url_for('static', filename='upload/'+student.avatar) }}" alt="Student">
+                            {{ student.name }}
+                        {% endwith %}
+                    </td>
                     {% if current_user.is_authenticated %}
                     <td>
                         <a href="{{ url_for('post.update', id=post.id) }}" class="btn btn-sm btn-secondary"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-pencil-square" viewBox="0 0 16 16">

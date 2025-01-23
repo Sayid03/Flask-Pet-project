@@ -4,9 +4,8 @@
 
 {% block content %}
 <form method="post" class="form-control d-flex flex-column gap-2">
-    <input name="teacher" type="text" placeholder="Teacher's name" class="form-control">
     <input name="subject" type="text" placeholder="Subject" class="form-control">
-    <input name="student" type="text" placeholder="Student's name" class="form-control">
+    {{ form.student }}
     <input value="Add" type="submit" class="btn btn-success">
 </form>
 {% endblock %}
