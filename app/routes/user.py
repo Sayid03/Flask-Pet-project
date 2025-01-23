@@ -1,7 +1,8 @@
-from flask import Blueprint, render_template, redirect, flash
+from flask import Blueprint, render_template, redirect, flash, url_for, request
+from flask_login import login_user, logout_user, current_user
 
 from ..functions import save_picture
-from ..forms import RegistrationForm
+from ..forms import RegistrationForm, LoginForm
 from ..models.user import User
 from ..extensions import db, bcrypt
 
@@ -17,10 +18,31 @@ def register():
                     login= form.login.data,
                     avatar= avatar_filename,
                     password= hashed_password)
-        db.session.add(user)
-        db.session.commit()
-        flash(f"Congratulations, {form.login.data}! You have successfully signed up!", "success")
-        return redirect('/')
-    else:
-        print('Registration Error')
+        try:
+            db.session.add(user)
+            db.session.commit()
+            flash(f"Congratulations, {form.login.data}! You have successfully signed up!", "success")
+            return redirect(url_for('user.login'))
+        except Exception as e:
+            print(str(e))
+            flash(f"An error occurred while registering", "danger")
     return render_template('user/register.html', form=form)
+
+@user.route('/user/login', methods=['POST', 'GET'])
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        user = User.query.filter_by(login=form.login.data).first()
+        if user and bcrypt.check_password_hash(user.password, form.password.data):
+            login_user(user, remember=form.rememberMe.data)
+            next_page = request.args.get('next')
+            flash(f"Congratulations, {form.login.data}! You have successfully signed in!", "success")
+            return redirect(next_page) if next_page else redirect(url_for('post.all'))
+        else:
+            flash(f"Login Error! Please check login and password!", "danger")
+    return render_template('user/login.html', form=form)
+
+@user.route('/user/logout', methods=['POST', 'GET'])
+def logout():
+    logout_user()
+    return redirect(url_for('post.all'))

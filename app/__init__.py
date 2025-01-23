@@ -1,5 +1,5 @@
 from flask import Flask
-from .extensions import db, migrate
+from .extensions import db, migrate, login_manager
 from .config import Config
 
 from .routes.user import user
@@ -16,6 +16,12 @@ def create_app(config_class=Config):
     db.init_app(app)
 
     migrate.init_app(app, db)
+
+    login_manager.init_app(app)
+
+    # Login Manager
+    login_manager.login_view = 'user.login'
+    login_manager.login_message = "You don't have an Access to this Page! You should Sign In first!"
 
     with app.app_context():
         db.create_all()

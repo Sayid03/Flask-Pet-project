@@ -6,15 +6,20 @@
 
     <ul class="nav col-12 col-lg-auto me-lg-auto mb-2 justify-content-center mb-md-0">
         <li><a href="{{ url_for('post.all') }}" class="nav-link px-2 text-secondary">Home</a></li>
+        {% if current_user.is_authenticated %}
         <li><a href="{{ url_for('post.create') }}" class="nav-link px-2 text-white">Add Post</a></li>
-        <li><a href="#" class="nav-link px-2 text-white">Pricing</a></li>
-        <li><a href="#" class="nav-link px-2 text-white">FAQs</a></li>
+        {% endif %}
         <li><a href="#" class="nav-link px-2 text-white">About</a></li>
     </ul>
 
     <div class="text-end">
-        <a type="button" class="btn btn-outline-light me-2" href="#">Login</a>
-        <a type="button" class="btn btn-warning" href="{{ url_for('user.register') }}">Sign-up</a>
+        {% if current_user.is_authenticated %}
+            <span>Wellcome, {{ current_user.login }}</span>
+            <a type="button" class="btn btn-outline-light me-2" href="{{ url_for('user.logout') }}">Sign-out</a>
+        {% else %}
+            <a type="button" class="btn btn-outline-light me-2" href="{{ url_for('user.login') }}">Sign-in</a>
+            <a type="button" class="btn btn-warning" href="{{ url_for('user.register') }}">Sign-up</a>
+        {% endif %}
     </div>
     </div>
 </div>
