@@ -40,11 +40,15 @@ def create():
 @login_required
 def update(id):
     post = Post.query.get(id)
+    form = StudentForm()
+    form.student.data = User.query.filter_by(id=post.student).first().name
+    form.student.choices = [s.name for s in User.query.filter_by(status='user')]
     if request.method == 'POST':
-        post.teacher = request.form.get('teacher')
         post.subject = request.form.get('subject')
-        post.student = request.form.get('student')
+        student = request.form.get('student')
         
+        post.student = User.query.filter_by(name=student).first().id
+
         try:
             db.session.commit()
             return redirect('/')
@@ -52,7 +56,8 @@ def update(id):
             print(str(e))
 
     else:
-        return render_template('post/update.html', post=post)
+        return render_template('post/update.html', post=post, form=form)
+
 
 @post.route('/post/<int:id>/delete', methods=['POST', 'GET'])
 @login_required
