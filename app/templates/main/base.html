@@ -20,8 +20,8 @@
         
         <footer class="py-3 my-4">{% include 'main/_footer.html' %}</footer>
     </div>
-
     <script src="{{ url_for('static', filename='js/libs/bootstrap.min.js')}}"></script>
     <script src="{{ url_for('static', filename='js/app.js')}}"></script>
+    {% block script %}{% endblock %}
 </body>
 </html>

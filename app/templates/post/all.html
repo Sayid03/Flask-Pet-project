@@ -2,7 +2,7 @@
 
 {% block title %} All Posts {% endblock %}
 
-{% block style %}<link rel="stylesheet" href="{{ url_for('static', filename='css/blocks/table.css') }}">{% endblock %}
+{% block style %}{% assets 'post_all_css' %}<link rel="stylesheet" href="{{ ASSET_URL }}">{% endassets %}{% endblock %}
 
 {% block content %}
     <div class="table-responsive custom-table-responsive">
@@ -47,3 +47,5 @@
         </table>
     </div>
 {% endblock %}
+
+{% block script %}{% assets 'post_all_js' %}<script type="text/javascript" src="{{ ASSETS_URL }}"></script>{% endassets %}{% endblock %}

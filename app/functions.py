@@ -14,3 +14,10 @@ def save_picture(picture):
     i.thumbnail(output_size)
     i.save(picture_path)
     return picture_fn
+
+def recursive_flaten_iterator(d):
+    for k, v in d.items():
+        if isinstance(v, list):
+            yield v
+        if isinstance(v, dict):
+            yield from recursive_flaten_iterator(v)
